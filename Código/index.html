@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¿Compras local o global?</title>
+<style>
+  :root {
+    --verde: #2e7d32;
+    --verde-oscuro: #1b5e20;
+    --verde-claro: #e8f5e9;
+    --tierra: #8d6e63;
+    --fondo: #f4f8f1;
+    --texto: #1f2a1f;
+    --borde: #c8dcc4;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, var(--verde-oscuro), var(--verde));
+    color: #fff;
+    padding: 28px 16px;
+    text-align: center;
+  }
+  header h1 { margin: 0 0 8px; font-size: 1.8rem; }
+  header p { margin: 0 auto; max-width: 640px; opacity: .95; }
+  main { max-width: 720px; margin: 0 auto; padding: 20px 16px 40px; }
+  .pregunta {
+    background: #fff;
+    border: 1px solid var(--borde);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 14px;
+  }
+  .pregunta h2 { font-size: 1.05rem; margin: 0 0 10px; color: var(--verde-oscuro); }
+  .opciones { display: grid; gap: 8px; }
+  .opciones label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fafdf9;
+  }
+  .opciones label:hover { background: var(--verde-claro); }
+  .opciones input { accent-color: var(--verde); width: 18px; height: 18px; }
+  .botones { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; margin-top: 8px; }
+  button {
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    background: var(--verde);
+  }
+  button.secundario { background: var(--tierra); }
+  button:disabled { opacity: .55; cursor: not-allowed; }
+  #aviso { color: #b71c1c; font-weight: 600; min-height: 1.5em; margin: 10px 0 0; }
+  #resultado {
+    display: none;
+    margin-top: 18px;
+    background: #fff;
+    border-left: 5px solid var(--verde);
+    border-radius: 10px;
+    padding: 16px;
+    white-space: pre-line;
+  }
+  footer { text-align: center; font-size: .85rem; color: #5d6b5a; padding-bottom: 24px; }
+  @media (max-width: 520px) {
+    header h1 { font-size: 1.45rem; }
+    .botones { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>¿Compras local o global?</h1>
+  <p>Encuesta anónima sobre hábitos de compra para la materia de Desarrollo Sustentable (TecNM, Instituto Tecnológico de Mazatlán). No se piden nombres.</p>
+</header>
+
+<main>
+  <form id="encuesta">
+    <div class="pregunta">
+      <h2>1. ¿Dónde compras la mayor parte de tu comida?</h2>
+      <div class="opciones">
+        <label><input type="radio" name="comida" value="Mercado o tianguis"> Mercado o tianguis</label>
+        <label><input type="radio" name="comida" value="Tienda de barrio"> Tienda de barrio</label>
+        <label><input type="radio" name="comida" value="Supermercado"> Supermercado</label>
+        <label><input type="radio" name="comida" value="En línea"> En línea</label>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <h2>2. ¿Dónde compras tu ropa?</h2>
+      <div class="opciones">
+        <label><input type="radio" name="ropa" value="Negocio local"> Negocio local</label>
+        <label><input type="radio" name="ropa" value="Tienda departamental"> Tienda departamental</label>
+        <label><input type="radio" name="ropa" value="App internacional"> App internacional</label>
+        <label><input type="radio" name="ropa" value="Segunda mano"> Segunda mano</label>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <h2>3. ¿Con qué frecuencia compras en apps internacionales?</h2>
+      <div class="opciones">
+        <label><input type="radio" name="apps" value="Nunca"> Nunca</label>
+        <label><input type="radio" name="apps" value="Una vez al mes"> Una vez al mes</label>
+        <label><input type="radio" name="apps" value="Varias veces al mes"> Varias veces al mes</label>
+        <label><input type="radio" name="apps" value="Cada semana"> Cada semana</label>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <h2>4. ¿Qué pesa más al comprar?</h2>
+      <div class="opciones">
+        <label><input type="radio" name="criterio" value="Precio"> Precio</label>
+        <label><input type="radio" name="criterio" value="Calidad"> Calidad</label>
+        <label><input type="radio" name="criterio" value="Cercanía"> Cercanía</label>
+        <label><input type="radio" name="criterio" value="Apoyar lo local"> Apoyar lo local</label>
+        <label><input type="radio" name="criterio" value="Marca"> Marca</label>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <h2>5. ¿Sabes de dónde viene lo que compras?</h2>
+      <div class="opciones">
+        <label><input type="radio" name="origen" value="Sí"> Sí</label>
+        <label><input type="radio" name="origen" value="A veces"> A veces</label>
+        <label><input type="radio" name="origen" value="No"> No</label>
+      </div>
+    </div>
+
+    <div class="pregunta">
+      <h2>6. Rango de edad</h2>
+      <div class="opciones">
+        <label><input type="radio" name="edad" value="Menos de 18"> Menos de 18</label>
+        <label><input type="radio" name="edad" value="18 a 29"> 18 a 29</label>
+        <label><input type="radio" name="edad" value="30 a 49"> 30 a 49</label>
+        <label><input type="radio" name="edad" value="50 o más"> 50 o más</label>
+      </div>
+    </div>
+
+    <div class="botones">
+      <button type="button" id="btnEnviar">Enviar respuesta</button>
+      <button type="button" id="btnReporte" class="secundario">Generar reporte</button>
+    </div>
+    <p id="aviso"></p>
+  </form>
+
+  <div id="resultado"></div>
+</main>
+
+<footer>Desarrollo Sustentable · Práctica 4.2 · Instituto Tecnológico de Mazatlán</footer>
+
+<script>
+  // PEGA AQUI LA URL DE TU WEBHOOK DE MAKE (Webhooks -> Custom webhook -> Copy address)
+  const WEBHOOK_URL = "https://hook.us2.make.com/4b3irsiqk1mkibajehr3ab1yjkyda86u";
+
+  const CAMPOS = ["comida", "ropa", "apps", "criterio", "origen", "edad"];
+  const form = document.getElementById("encuesta");
+  const btnEnviar = document.getElementById("btnEnviar");
+  const btnReporte = document.getElementById("btnReporte");
+  const aviso = document.getElementById("aviso");
+  const resultado = document.getElementById("resultado");
+
+  function mostrar(texto) {
+    resultado.textContent = texto;
+    resultado.style.display = "block";
+  }
+
+  function bloquear(estado) {
+    btnEnviar.disabled = estado;
+    btnReporte.disabled = estado;
+  }
+
+  async function enviar(datos) {
+    bloquear(true);
+    mostrar("Procesando...");
+    try {
+      const respuesta = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        body: new URLSearchParams(datos)
+      });
+      if (!respuesta.ok) throw new Error("HTTP " + respuesta.status);
+      const texto = await respuesta.text();
+      mostrar(texto);
+      return true;
+    } catch (error) {
+      mostrar("No se pudo conectar, intenta de nuevo.");
+      return false;
+    } finally {
+      bloquear(false);
+    }
+  }
+
+  btnEnviar.addEventListener("click", async () => {
+    aviso.textContent = "";
+    const datos = { accion: "respuesta" };
+    for (const campo of CAMPOS) {
+      const elegido = form.querySelector('input[name="' + campo + '"]:checked');
+      if (!elegido) {
+        aviso.textContent = "Contesta todas las preguntas antes de enviar.";
+        return;
+      }
+      datos[campo] = elegido.value;
+    }
+    const ok = await enviar(datos);
+    if (ok) form.reset();
+  });
+
+  btnReporte.addEventListener("click", () => {
+    aviso.textContent = "";
+    enviar({ accion: "reporte" });
+  });
+</script>
+</body>
+</html>
