@@ -922,7 +922,7 @@
                             "mapper": {
                                 "files": [],
                                 "message": "Respuestas de la encuesta (comida | ropa | apps | criterio | origen | edad):\n{{6.text}}",
-                                "threadId": "",
+                                "threadId": "encuesta-{{now}}",
                                 "outputType": "text",
                                 "tokenLimit": "50",
                                 "modelConfig": {
