@@ -1,0 +1,1161 @@
+{
+    "name": "Encuesta_Equipo#",
+    "flow": [
+        {
+            "id": 1,
+            "module": "gateway:CustomWebHook",
+            "version": 1,
+            "parameters": {
+                "hook": 3050082,
+                "maxResults": 1
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "setupValidation": {
+                    "result": {
+                        "valid": true,
+                        "fields": []
+                    },
+                    "version": 1,
+                    "configuration": "d60b1ade49fd9bf2"
+                },
+                "restore": {
+                    "parameters": {
+                        "hook": {
+                            "data": {
+                                "editable": "true"
+                            },
+                            "label": "Encuesta_Equipo#"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "hook",
+                        "type": "hook:gateway-webhook",
+                        "label": "Webhook",
+                        "required": true
+                    },
+                    {
+                        "name": "maxResults",
+                        "type": "number",
+                        "label": "Maximum number of results"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "accion",
+                        "type": "text"
+                    },
+                    {
+                        "name": "comida",
+                        "type": "text"
+                    },
+                    {
+                        "name": "ropa",
+                        "type": "text"
+                    },
+                    {
+                        "name": "apps",
+                        "type": "text"
+                    },
+                    {
+                        "name": "criterio",
+                        "type": "text"
+                    },
+                    {
+                        "name": "origen",
+                        "type": "text"
+                    },
+                    {
+                        "name": "edad",
+                        "type": "text"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 3,
+                            "module": "google-sheets:addRow",
+                            "version": 2,
+                            "parameters": {
+                                "__IMTCONN__": 10828199
+                            },
+                            "filter": {
+                                "name": "Respuesta",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{1.accion}}",
+                                            "b": "respuesta",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "from": "drive",
+                                "mode": "select",
+                                "values": {
+                                    "0": "{{formatDate(now; \"DD/MM/YYYY HH:mm\")}}",
+                                    "1": "{{1.comida}}",
+                                    "2": "{{1.ropa}}",
+                                    "3": "{{1.apps}}",
+                                    "4": "{{1.criterio}}",
+                                    "5": "{{1.origen}}",
+                                    "6": "{{1.edad}}"
+                                },
+                                "sheetId": "Respuestas",
+                                "spreadsheetId": "/1nur23VaJSoIyvCS6XsteGckTlmxmzI1x--YQKxhD4z4",
+                                "includesHeaders": true,
+                                "insertDataOption": "INSERT_ROWS",
+                                "useColumnHeaders": false,
+                                "valueInputOption": "USER_ENTERED",
+                                "insertUnformatted": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": -150,
+                                    "name": "Guardar respuesta"
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "7e18f8b18b5b9722"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "from": {
+                                            "label": "My Drive"
+                                        },
+                                        "mode": {
+                                            "label": "Search by path"
+                                        },
+                                        "sheetId": {
+                                            "label": "Respuestas"
+                                        },
+                                        "spreadsheetId": {
+                                            "path": [
+                                                "1nur23VaJSoIyvCS6XsteGckTlmxmzI1x--YQKxhD4z4"
+                                            ]
+                                        },
+                                        "includesHeaders": {
+                                            "label": "Yes"
+                                        },
+                                        "insertDataOption": {
+                                            "mode": "chose",
+                                            "label": "Insert rows"
+                                        },
+                                        "useColumnHeaders": {
+                                            "label": "No"
+                                        },
+                                        "valueInputOption": {
+                                            "mode": "chose",
+                                            "label": "User entered"
+                                        },
+                                        "insertUnformatted": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "CHRISTIAN's Google connection (l251000244@mazatlan.tecnm.mx)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "mode",
+                                        "type": "select",
+                                        "label": "Search Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "select",
+                                                "fromAll",
+                                                "map"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "insertUnformatted",
+                                        "type": "boolean",
+                                        "label": "Unformatted",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "valueInputOption",
+                                        "type": "select",
+                                        "label": "Value input option",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "USER_ENTERED",
+                                                "RAW"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "insertDataOption",
+                                        "type": "select",
+                                        "label": "Insert data option",
+                                        "validate": {
+                                            "enum": [
+                                                "INSERT_ROWS",
+                                                "OVERWRITE"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "Drive",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share",
+                                                "team"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "spreadsheetId",
+                                        "type": "file",
+                                        "label": "Spreadsheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "sheetId",
+                                        "type": "select",
+                                        "label": "Sheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "includesHeaders",
+                                        "type": "select",
+                                        "label": "Table contains headers",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "useColumnHeaders",
+                                        "type": "select",
+                                        "label": "Use column headers as IDs of the columns",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "values",
+                                        "spec": [
+                                            {
+                                                "name": "0",
+                                                "type": "text",
+                                                "label": "Fecha (A)"
+                                            },
+                                            {
+                                                "name": "1",
+                                                "type": "text",
+                                                "label": "Comida (B)"
+                                            },
+                                            {
+                                                "name": "2",
+                                                "type": "text",
+                                                "label": "Ropa (C)"
+                                            },
+                                            {
+                                                "name": "3",
+                                                "type": "text",
+                                                "label": "Apps (D)"
+                                            },
+                                            {
+                                                "name": "4",
+                                                "type": "text",
+                                                "label": "Criterio (E)"
+                                            },
+                                            {
+                                                "name": "5",
+                                                "type": "text",
+                                                "label": "Origen (F)"
+                                            },
+                                            {
+                                                "name": "6",
+                                                "type": "text",
+                                                "label": "Edad (G)"
+                                            },
+                                            {
+                                                "name": "7",
+                                                "type": "text",
+                                                "label": "(H)"
+                                            },
+                                            {
+                                                "name": "8",
+                                                "type": "text",
+                                                "label": "(I)"
+                                            },
+                                            {
+                                                "name": "9",
+                                                "type": "text",
+                                                "label": "(J)"
+                                            },
+                                            {
+                                                "name": "10",
+                                                "type": "text",
+                                                "label": "(K)"
+                                            },
+                                            {
+                                                "name": "11",
+                                                "type": "text",
+                                                "label": "(L)"
+                                            },
+                                            {
+                                                "name": "12",
+                                                "type": "text",
+                                                "label": "(M)"
+                                            },
+                                            {
+                                                "name": "13",
+                                                "type": "text",
+                                                "label": "(N)"
+                                            },
+                                            {
+                                                "name": "14",
+                                                "type": "text",
+                                                "label": "(O)"
+                                            },
+                                            {
+                                                "name": "15",
+                                                "type": "text",
+                                                "label": "(P)"
+                                            },
+                                            {
+                                                "name": "16",
+                                                "type": "text",
+                                                "label": "(Q)"
+                                            },
+                                            {
+                                                "name": "17",
+                                                "type": "text",
+                                                "label": "(R)"
+                                            },
+                                            {
+                                                "name": "18",
+                                                "type": "text",
+                                                "label": "(S)"
+                                            },
+                                            {
+                                                "name": "19",
+                                                "type": "text",
+                                                "label": "(T)"
+                                            },
+                                            {
+                                                "name": "20",
+                                                "type": "text",
+                                                "label": "(U)"
+                                            },
+                                            {
+                                                "name": "21",
+                                                "type": "text",
+                                                "label": "(V)"
+                                            },
+                                            {
+                                                "name": "22",
+                                                "type": "text",
+                                                "label": "(W)"
+                                            },
+                                            {
+                                                "name": "23",
+                                                "type": "text",
+                                                "label": "(X)"
+                                            },
+                                            {
+                                                "name": "24",
+                                                "type": "text",
+                                                "label": "(Y)"
+                                            },
+                                            {
+                                                "name": "25",
+                                                "type": "text",
+                                                "label": "(Z)"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Values in columns",
+                                        "metadata": [
+                                            [
+                                                [
+                                                    "Fecha",
+                                                    "Comida",
+                                                    "Ropa",
+                                                    "Apps",
+                                                    "Criterio",
+                                                    "Origen",
+                                                    "Edad"
+                                                ]
+                                            ]
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 4,
+                            "module": "gateway:WebhookRespond",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {
+                                "body": "Respuesta registrada. Gracias por participar.",
+                                "status": "200",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "text/plain; charset=utf-8"
+                                    },
+                                    {
+                                        "key": "Access-Control-Allow-Origin",
+                                        "value": "*"
+                                    }
+                                ]
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 900,
+                                    "y": -150,
+                                    "name": "Responder a la página"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "headers": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null,
+                                                null
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 5,
+                            "module": "google-sheets:filterRows",
+                            "version": 2,
+                            "parameters": {
+                                "__IMTCONN__": 10828199
+                            },
+                            "filter": {
+                                "name": "Reporte",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{1.accion}}",
+                                            "b": "reporte",
+                                            "o": "text:equal"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "from": "drive",
+                                "limit": "200",
+                                "sheetId": "Respuestas",
+                                "sortOrder": "asc",
+                                "spreadsheetId": "1nur23VaJSoIyvCS6XsteGckTlmxmzI1x--YQKxhD4z4",
+                                "tableFirstRow": "A1:Z1",
+                                "includesHeaders": true,
+                                "valueRenderOption": "FORMATTED_VALUE",
+                                "dateTimeRenderOption": "FORMATTED_STRING"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 600,
+                                    "y": 150,
+                                    "name": "Leer respuestas"
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "9379fcfbfe7aeeea"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "from": {
+                                            "label": "Select from My Drive"
+                                        },
+                                        "orderBy": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "sheetId": {
+                                            "mode": "chose",
+                                            "label": "Respuestas"
+                                        },
+                                        "sortOrder": {
+                                            "mode": "chose",
+                                            "label": "Ascending"
+                                        },
+                                        "spreadsheetId": {
+                                            "mode": "chose",
+                                            "label": "Encuesta_Equipo#"
+                                        },
+                                        "tableFirstRow": {
+                                            "label": "A-Z"
+                                        },
+                                        "includesHeaders": {
+                                            "mode": "chose",
+                                            "label": "Yes"
+                                        },
+                                        "valueRenderOption": {
+                                            "mode": "chose",
+                                            "label": "Formatted value"
+                                        },
+                                        "dateTimeRenderOption": {
+                                            "mode": "chose",
+                                            "label": "Formatted string"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google"
+                                            },
+                                            "label": "CHRISTIAN's Google connection (l251000244@mazatlan.tecnm.mx)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "Search Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "drive",
+                                                "share"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "valueRenderOption",
+                                        "type": "select",
+                                        "label": "Value render option",
+                                        "validate": {
+                                            "enum": [
+                                                "FORMATTED_VALUE",
+                                                "UNFORMATTED_VALUE",
+                                                "FORMULA"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "dateTimeRenderOption",
+                                        "type": "select",
+                                        "label": "Date and time render option",
+                                        "validate": {
+                                            "enum": [
+                                                "SERIAL_NUMBER",
+                                                "FORMATTED_STRING"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "limit",
+                                        "type": "uinteger",
+                                        "label": "Limit"
+                                    },
+                                    {
+                                        "name": "spreadsheetId",
+                                        "type": "select",
+                                        "label": "Spreadsheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "sheetId",
+                                        "type": "select",
+                                        "label": "Sheet Name",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "includesHeaders",
+                                        "type": "select",
+                                        "label": "Table contains headers",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                true,
+                                                false
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "tableFirstRow",
+                                        "type": "select",
+                                        "label": "Column range",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "A1:Z1",
+                                                "A1:BZ1",
+                                                "A1:CZ1",
+                                                "A1:DZ1",
+                                                "A1:MZ1",
+                                                "A1:ZZ1",
+                                                "A1:AZZ1",
+                                                "A1:BZZ1",
+                                                "A1:CZZ1",
+                                                "A1:DZZ1",
+                                                "A1:MZZ1",
+                                                "A1:ZZZ1"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "filter",
+                                        "type": "filter",
+                                        "label": "Filter",
+                                        "options": "rpc://google-sheets/2/rpcGetFilterKeys?includesHeaders=true"
+                                    },
+                                    {
+                                        "name": "orderBy",
+                                        "type": "select",
+                                        "label": "Order by"
+                                    },
+                                    {
+                                        "name": "sortOrder",
+                                        "type": "select",
+                                        "label": "Sort order",
+                                        "validate": {
+                                            "enum": [
+                                                "asc",
+                                                "desc"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "__IMTLENGTH__",
+                                        "type": "uinteger",
+                                        "label": "Total number of bundles"
+                                    },
+                                    {
+                                        "name": "__IMTINDEX__",
+                                        "type": "uinteger",
+                                        "label": "Bundle order position"
+                                    },
+                                    {
+                                        "name": "__ROW_NUMBER__",
+                                        "type": "number",
+                                        "label": "Row number"
+                                    },
+                                    {
+                                        "name": "__SPREADSHEET_ID__",
+                                        "type": "text",
+                                        "label": "Spreadsheet ID"
+                                    },
+                                    {
+                                        "name": "__SHEET__",
+                                        "type": "text",
+                                        "label": "Sheet"
+                                    },
+                                    {
+                                        "name": "0",
+                                        "type": "text",
+                                        "label": "Fecha (A)"
+                                    },
+                                    {
+                                        "name": "1",
+                                        "type": "text",
+                                        "label": "Comida (B)"
+                                    },
+                                    {
+                                        "name": "2",
+                                        "type": "text",
+                                        "label": "Ropa (C)"
+                                    },
+                                    {
+                                        "name": "3",
+                                        "type": "text",
+                                        "label": "Apps (D)"
+                                    },
+                                    {
+                                        "name": "4",
+                                        "type": "text",
+                                        "label": "Criterio (E)"
+                                    },
+                                    {
+                                        "name": "5",
+                                        "type": "text",
+                                        "label": "Origen (F)"
+                                    },
+                                    {
+                                        "name": "6",
+                                        "type": "text",
+                                        "label": "Edad (G)"
+                                    },
+                                    {
+                                        "name": "7",
+                                        "type": "text",
+                                        "label": "(H)"
+                                    },
+                                    {
+                                        "name": "8",
+                                        "type": "text",
+                                        "label": "(I)"
+                                    },
+                                    {
+                                        "name": "9",
+                                        "type": "text",
+                                        "label": "(J)"
+                                    },
+                                    {
+                                        "name": "10",
+                                        "type": "text",
+                                        "label": "(K)"
+                                    },
+                                    {
+                                        "name": "11",
+                                        "type": "text",
+                                        "label": "(L)"
+                                    },
+                                    {
+                                        "name": "12",
+                                        "type": "text",
+                                        "label": "(M)"
+                                    },
+                                    {
+                                        "name": "13",
+                                        "type": "text",
+                                        "label": "(N)"
+                                    },
+                                    {
+                                        "name": "14",
+                                        "type": "text",
+                                        "label": "(O)"
+                                    },
+                                    {
+                                        "name": "15",
+                                        "type": "text",
+                                        "label": "(P)"
+                                    },
+                                    {
+                                        "name": "16",
+                                        "type": "text",
+                                        "label": "(Q)"
+                                    },
+                                    {
+                                        "name": "17",
+                                        "type": "text",
+                                        "label": "(R)"
+                                    },
+                                    {
+                                        "name": "18",
+                                        "type": "text",
+                                        "label": "(S)"
+                                    },
+                                    {
+                                        "name": "19",
+                                        "type": "text",
+                                        "label": "(T)"
+                                    },
+                                    {
+                                        "name": "20",
+                                        "type": "text",
+                                        "label": "(U)"
+                                    },
+                                    {
+                                        "name": "21",
+                                        "type": "text",
+                                        "label": "(V)"
+                                    },
+                                    {
+                                        "name": "22",
+                                        "type": "text",
+                                        "label": "(W)"
+                                    },
+                                    {
+                                        "name": "23",
+                                        "type": "text",
+                                        "label": "(X)"
+                                    },
+                                    {
+                                        "name": "24",
+                                        "type": "text",
+                                        "label": "(Y)"
+                                    },
+                                    {
+                                        "name": "25",
+                                        "type": "text",
+                                        "label": "(Z)"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 6,
+                            "module": "util:TextAggregator",
+                            "version": 1,
+                            "parameters": {
+                                "feeder": 5,
+                                "rowSeparator": "\n"
+                            },
+                            "mapper": {
+                                "value": "{{5.`1`}} | {{5.`2`}} | {{5.`3`}} | {{5.`4`}} | {{5.`5`}} | {{5.`6`}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 900,
+                                    "y": 150,
+                                    "name": "Juntar respuestas"
+                                },
+                                "setupValidation": {
+                                    "result": {
+                                        "valid": true,
+                                        "fields": []
+                                    },
+                                    "version": 1,
+                                    "configuration": "77511d52fd298351"
+                                },
+                                "restore": {
+                                    "extra": {
+                                        "feeder": {
+                                            "label": "Leer respuestas - Search Rows [5]"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "rowSeparator": {
+                                            "label": "New row"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "rowSeparator",
+                                        "type": "select",
+                                        "label": "Row separator",
+                                        "validate": {
+                                            "enum": [
+                                                "\n",
+                                                "\t",
+                                                "other"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "value",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 7,
+                            "module": "ai-local-agent:RunLocalAIAgent",
+                            "version": 0,
+                            "parameters": {
+                                "makeConnectionId": 10624849
+                            },
+                            "mapper": {
+                                "files": [],
+                                "message": "Respuestas de la encuesta (comida | ropa | apps | criterio | origen | edad):\n{{6.text}}",
+                                "threadId": "",
+                                "outputType": "text",
+                                "tokenLimit": "50",
+                                "modelConfig": {
+                                    "timeout": "",
+                                    "recursionLimit": "300",
+                                    "aiCompactionEnabled": true,
+                                    "iterationsFromHistoryCount": "10"
+                                },
+                                "defaultModel": "medium",
+                                "systemPrompt": "Eres un analista de economia local para alumnos de Desarrollo Sustentable del TecNM en Mazatlan, Sinaloa.\nRecibiras las respuestas de una encuesta, una por linea, con el formato: comida | ropa | apps | criterio | origen | edad.\nUsa UNICAMENTE esas respuestas; no inventes datos.\nResponde en texto plano (sin asteriscos, sin markdown), en espanol, con este formato:\n\nTOTAL DE RESPUESTAS: [numero]\n\nRESULTADOS\nComida: [cada opcion con su porcentaje]\nRopa: [...]\nApps internacionales: [...]\nCriterio de compra: [...]\nConoce el origen: [...]\n\nANALISIS\n[4 lineas maximo: que tan local o global es el consumo de esta comunidad y que diferencias hay por edad]\n\nCONCLUSIONES\n1. [efecto en la economia local]\n2. [efecto ambiental por transporte y empaques]\n3. [una accion concreta para impulsar el consumo local]",
+                                "promptCaching": "none",
+                                "fallbackEnabled": false
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1200,
+                                    "y": 150
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "files": {
+                                            "mode": "chose"
+                                        },
+                                        "outputType": {
+                                            "label": "Text"
+                                        },
+                                        "defaultModel": {
+                                            "mode": "chose",
+                                            "label": "MediumModel: gpt-5-nano. Reasoning: low. A balanced, quick choice for clearly defined tasks needing reliable answers rather than deep analysis"
+                                        },
+                                        "promptCaching": {
+                                            "label": "Automatic (always on)"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "makeConnectionId": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "ai-provider"
+                                            },
+                                            "label": "Make's AI Provider (default)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "makeConnectionId",
+                                        "type": "account:ai-provider,openai-gpt-3,anthropic-claude,gemini-ai-q9zyjp,ai-agent-foundry-openai,ai-agent-foundry-non-openai,mistral-ai,cohere,groq,ai-agent-xai,amazon-bedrock,ai-agent-openai-compatible",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "defaultModel",
+                                        "type": "select",
+                                        "label": "Model",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "tokenLimit",
+                                        "type": "number",
+                                        "label": "Maximum output length (%)",
+                                        "validate": {
+                                            "max": 100,
+                                            "min": 20
+                                        }
+                                    },
+                                    {
+                                        "name": "promptCaching",
+                                        "type": "select",
+                                        "label": "Prompt caching",
+                                        "validate": {
+                                            "enum": [
+                                                "none"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "fallbackEnabled",
+                                        "type": "boolean",
+                                        "label": "Enable fallback connection",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "systemPrompt",
+                                        "type": "text",
+                                        "label": "Instructions"
+                                    },
+                                    {
+                                        "name": "message",
+                                        "type": "text",
+                                        "label": "Input",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "files",
+                                        "spec": [
+                                            {
+                                                "name": "fileName",
+                                                "type": "filename",
+                                                "label": "File name",
+                                                "semantic": "file:name"
+                                            },
+                                            {
+                                                "name": "data",
+                                                "type": "buffer",
+                                                "label": "Data",
+                                                "semantic": "file:data"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Input files"
+                                    },
+                                    {
+                                        "name": "threadId",
+                                        "type": "text",
+                                        "label": "Conversation ID",
+                                        "validate": {
+                                            "max": 256
+                                        }
+                                    },
+                                    {
+                                        "name": "modelConfig",
+                                        "spec": [
+                                            {
+                                                "name": "recursionLimit",
+                                                "type": "number",
+                                                "label": "Steps per agent call"
+                                            },
+                                            {
+                                                "name": "iterationsFromHistoryCount",
+                                                "type": "number",
+                                                "label": "Maximum conversation history"
+                                            },
+                                            {
+                                                "name": "timeout",
+                                                "type": "number",
+                                                "label": "Step timeout",
+                                                "validate": {
+                                                    "max": 600,
+                                                    "min": 120
+                                                }
+                                            },
+                                            {
+                                                "name": "aiCompactionEnabled",
+                                                "type": "boolean",
+                                                "label": "Enable compaction",
+                                                "required": true
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Model configuration"
+                                    },
+                                    {
+                                        "name": "outputType",
+                                        "type": "select",
+                                        "label": "Response format",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "text",
+                                                "make-schema",
+                                                "udt-schema"
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "tools": []
+                        },
+                        {
+                            "id": 8,
+                            "module": "gateway:WebhookRespond",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {
+                                "body": "{{7.response}}",
+                                "status": "200",
+                                "headers": [
+                                    {
+                                        "key": "Content-Type",
+                                        "value": "text/plain; charset=utf-8"
+                                    },
+                                    {
+                                        "key": "Access-Control-Allow-Origin",
+                                        "value": "*"
+                                    }
+                                ]
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1500,
+                                    "y": 150,
+                                    "name": "Responder con el reporte"
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "headers": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null,
+                                                null
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": true,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us2.make.com",
+        "notes": []
+    }
+}
