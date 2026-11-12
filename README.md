@@ -8,10 +8,6 @@
 
 ---
 
-## 🎥 Video
-
-[▶ Ver el video de la práctica en YouTube](https://youtube.com/shorts/vWzAabDWJ0k)
-
 ## 🌐 Página publicada
 
 [Abrir la encuesta en GitHub Pages](https://christiac507.github.io/P4.2-Encuesta_local_o_global/C%C3%B3digo/)
@@ -52,7 +48,7 @@ Webhook de Make ── Router
 |---------|-----------|
 | `Código/` | `index.html` (la encuesta), `Encuesta_Equipo#.blueprint.json` (blueprint exportado de Make) y `configuracion_make.md` (módulos, filtros e instrucciones de la IA) |
 | `Imágenes/` | Capturas del escenario de Make, la hoja de Sheets, la página y el reporte |
-| `Video/` | `enlace.txt` con el enlace al video en YouTube |
+| `Video/` | Enlace al video de la práctica |
 | `Resultados/` | Informe en PDF con investigación, resultados y preguntas |
 
 ## Preguntas de la encuesta
