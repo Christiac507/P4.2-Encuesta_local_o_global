@@ -10,7 +10,7 @@
 
 ## 🎥 Video
 
-[▶ Ver el video de la práctica en YouTube](https://www.youtube.com/watch?v=PEGA_AQUI_EL_ID_DEL_VIDEO)
+[▶ Ver el video de la práctica en YouTube](https://youtube.com/shorts/vWzAabDWJ0k)
 
 ## 🌐 Página publicada
 
